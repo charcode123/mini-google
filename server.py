@@ -1,22 +1,11 @@
 
 import socket		
-import json	
-import pymongo
-from pymongo import mongo_client
-# import db_interaction as db
+import json
+import db_interaction as db
 
 
-conn = 'mongodb://localhost:27017/search-engine'
-client = mongo_client.MongoClient(conn)
-db = client.searchengine
-col = db.get_collection('search-engine-collection')
-def insert(col,d):
-    col.insert_one(d)
-    print("inserted")
-def get(col):
-    ob = col.find()
-    l = [item["URL"] for item in ob]
-    return l    
+#connecting to mongodb
+col=db.connect()  #connecting to the database
 
 
 
@@ -39,9 +28,9 @@ while True:
     method = d['method']
     d = d['ob']
     if method =='insert':
-        insert(col,d)
+        db.insert(col,d)
     elif method =='find':
-        results = get(col)
+        results = db.get(col)
         print(results)
     c.close()
 
