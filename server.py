@@ -5,7 +5,7 @@ import db_interaction as db
 
 
 #connecting to mongodb
-col=db.connect()  #connecting to the database
+col=db.connect()  
 
 
 
