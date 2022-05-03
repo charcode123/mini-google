@@ -12,7 +12,7 @@ col=db.connect()
 # next create a socket object
 s = socket.socket()		
 print ("Socket successfully created")
-port = 12345			
+port = 1234			
 s.bind(('', port))		
 print ("socket binded to %s" %(port))
 results = ''
