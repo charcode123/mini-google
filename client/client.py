@@ -2,7 +2,7 @@
 import socket            
 import json
 s = socket.socket()        
-port = 1234
+port = 12345
 
 meth = ""
 while(meth!='find' and meth!='insert'):
