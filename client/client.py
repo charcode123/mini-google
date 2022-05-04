@@ -6,13 +6,10 @@ port = 1234
 
 meth = ""
 while(meth!='find' and meth!='insert'):
-    # meth = input("enter a valid method  (insert/find): ") 
-    meth='find'
-    n='xxx'
-    a='hhh'
+    meth = input("enter a valid method  (insert/find): ") 
 if meth == 'insert':                 
-    # n = input('enter the description of the URL ')
-    # a = input("enter the URL ")
+    n = input('enter the description of the URL ')
+    a = input("enter the URL ")
     if n == '' or a == '':
         d = {}
     else:
