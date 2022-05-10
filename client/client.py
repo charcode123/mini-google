@@ -1,26 +1,16 @@
 
-import socket            
-import json
-s = socket.socket()        
-port = 12345
+import socket
+SERVER = "127.0.0.1"
+PORT = 12345
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client.connect((SERVER, PORT))
+client.sendall(bytes("This is from Client",'UTF-8'))
+while True:
+  in_data =  client.recv(1024)
+  print("From Server :" ,in_data.decode())
+  out_data = input("Enter your message : ")
+  client.sendall(bytes(out_data,'UTF-8'))
+  if out_data=='bye':
+      break
+client.close()       
 
-meth = ""
-while(meth!='find' and meth!='insert'):
-    meth = input("enter a valid method  (insert/find): ") 
-if meth == 'insert':                 
-    n = input('enter the description of the URL ')
-    a = input("enter the URL ")
-    if n == '' or a == '':
-        d = {}
-    else:
-        d = {'description':n,'URL':a}
-else:
-    d = {}
-d= json.dumps({"ob":d,"method":meth})
-s.connect(('127.0.0.1', port))
-s.send(d.encode())
-
-
-
-
-s.close()  

@@ -1,38 +1,32 @@
 
-import socket		
-import json
-import db_interaction as db
-
-
-#connecting to mongodb
-col=db.connect()  
-
-
-
-# next create a socket object
-s = socket.socket()		
-print ("Socket successfully created")
-port = 12345		
-s.bind(('', port))		
-print ("socket binded to %s" %(port))
-results = ''
-s.listen(5)	
-print ("socket is listening")		
+import socket, threading
+class ClientThread(threading.Thread):
+    def __init__(self,clientAddress,clientsocket):
+        threading.Thread.__init__(self)
+        self.csocket = clientsocket
+        print ("New connection added: ", clientAddress)
+    def run(self):
+        print ("Connection from : ", clientAddress)
+        #self.csocket.send(bytes("Hi, This is from Server..",'utf-8'))
+        msg = ''
+        while True:
+            data = self.csocket.recv(2048)
+            msg = data.decode()
+            if msg=='bye':
+              break
+            print ("from client :", msg)
+            self.csocket.send(bytes(msg,'UTF-8'))
+        print ("Client at ", clientAddress , " disconnected...")
+LOCALHOST = "127.0.0.1"
+PORT = 12345
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+server.bind((LOCALHOST, PORT))
+print("Server started")
+print("Waiting for client request..")
 while True:
-
-# Establish connection with client.
-    c, addr = s.accept()
-    print ('Got connection from', addr )
-    d= c.recv(1024).decode()
-    d = json.loads(d)
-    method = d['method']
-    d = d['ob']
-    if method =='insert':
-        db.insert(col,d)
-    elif method =='find':
-        results = db.get(col)
-        print(results)
-    c.close()
-
-# Breaking once connection closed
-    break
+    server.listen(1)
+    clientsock, clientAddress = server.accept()
+    newthread = ClientThread(clientAddress, clientsock)
+    newthread.start()
+            
