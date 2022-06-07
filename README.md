@@ -1,2 +1,2 @@
-# mini-google
-a scaled down version of a search engine
+# multi threaded server client model
+
